@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+            x:Class="Project_Bluetooth.MainPage"            
+            Title="Bluetooth Scanner">
+
+    <!--<ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="Khaki">
+
+            --><!-- Заголовок --><!--
+            <Label Text="Bluetooth-сканер"  
+                 FontSize="24"  
+                 HorizontalOptions="Center"  
+                 SemanticProperties.HeadingLevel="Level1" />
+
+            --><!-- Кнопка запуска сканирования --><!--
+            <Button Text="Начать сканирование"  
+                  Clicked="OnStartScanClicked"  
+                  BackgroundColor="#007AFF"  
+                  TextColor="White"  
+                  CornerRadius="10"  
+                  HorizontalOptions="Fill" />
+
+
+
+          
+
+
+            --><!--Список найденных устройств--><!--
+           
+                <CollectionView ItemsSource="{Binding DiscoveredDevices}"
+                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate>
+
+
+
+                            --><!--Рамка вокруг одного устройства--><!--
+                            <Border Stroke="MidnightBlue"
+                            StrokeShape="RoundRectangle 10"
+                            Margin="5"
+                            Padding="8"
+                            HorizontalOptions="Start">
+
+                                --><!--Вертикальное размещение: Название сверху, адрес снизу--><!--
+
+                                <VerticalStackLayout Spacing="2">
+                                    --><!--Название устройства--><!--
+                                    <Label Text="{Binding Name}"
+                                       FontSize="18"
+                                       HorizontalOptions="Start" />
+
+                                    --><!--MAC-адрес--><!--
+                                    <Label Text="{Binding Address}"
+                                               FontSize="14"
+                                               TextColor="DarkBlue"
+                                               HorizontalOptions="Start" />
+                                </VerticalStackLayout>
+
+                            </Border>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+           
+        </VerticalStackLayout>
+    </ScrollView>-->
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15" Spacing="20" BackgroundColor="DimGrey">
+
+            <!-- Заголовок -->
+            <Label Text="SCB_ELECTRONMASH"  
+               FontSize="18"  
+               HorizontalOptions="Center"  
+               SemanticProperties.HeadingLevel="Level1" />
+
+            <!-- Кнопка запуска сканирования --><!--
+            <Button Text="Начать сканирование"  
+                Clicked="OnStartScanClicked"  
+                BackgroundColor="#007AFF"  
+                TextColor="White"  
+                CornerRadius="10"  
+                HorizontalOptions="Fill" />-->
+
+
+            <!-- ✅ Горизонтальное размещение двух кнопок -->
+            <!-- Использование Grid для горизонтального размещения кнопок -->
+            <Grid Margin="1" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Button Text="Bluetooth"
+                    x:Name="Counter5"
+                    TextColor="BlanchedAlmond"
+                    BackgroundColor="Blue"
+                    Clicked="On_Off_Bluetooth"
+                    Grid.Column="0"/>
+
+                <Button Text="Scan devices"
+                    TextColor="BlanchedAlmond"
+                    BackgroundColor="ForestGreen"
+                    Clicked="OnStartScanClicked"
+                    Grid.Column="1"/>
+
+                <Button Text="Stop scan"
+                        TextColor="BlanchedAlmond"
+                    BackgroundColor="DarkRed"
+                    Clicked="OnStopScanClicked"
+                    Grid.Column="2"/>
+            </Grid>
+
+
+
+
+
+            <!-- Горизонтальный список устройств -->
+            <FlexLayout 
+            BindableLayout.ItemsSource="{Binding DiscoveredDevices}" 
+            Direction="Row"
+            Wrap="Wrap"
+            JustifyContent="Start"
+            AlignItems="Start"
+            Margin="0,1,0,0">
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="MidnightBlue"
+                            StrokeShape="RoundRectangle 10"
+                            Margin="1"
+                            Padding="8"
+                            BackgroundColor="Khaki"
+                            HorizontalOptions="Start">
+                            <VerticalStackLayout Spacing="2"
+                                             HorizontalOptions="Center">
+                                <Label Text="{Binding Name}"
+                                   FontSize="16"
+                                   HorizontalOptions="Center" />
+                                <Label Text="{Binding Address}"
+                                   FontSize="12"
+                                   TextColor="DarkBlue"
+                                   HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>
+    
+    

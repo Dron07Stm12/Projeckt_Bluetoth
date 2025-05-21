@@ -90,20 +90,21 @@
             <Grid Margin="1" ColumnDefinitions="*,*,*" ColumnSpacing="10">
                 <Button Text="Bluetooth"
                     x:Name="Counter5"
-                    TextColor="BlanchedAlmond"
-                    BackgroundColor="Blue"
+                    TextColor="#b27c29"
+                    BackgroundColor="#3131a4"
                     Clicked="On_Off_Bluetooth"
                     Grid.Column="0"/>
 
                 <Button Text="Scan devices"
-                    TextColor="BlanchedAlmond"
-                    BackgroundColor="ForestGreen"
+                        
+                    TextColor="#b27c29"
+                    BackgroundColor="#263726"
                     Clicked="OnStartScanClicked"
                     Grid.Column="1"/>
 
                 <Button Text="Stop scan"
-                        TextColor="BlanchedAlmond"
-                    BackgroundColor="DarkRed"
+                       TextColor="#b27c29"
+                    BackgroundColor="#93411d19"
                     Clicked="OnStopScanClicked"
                     Grid.Column="2"/>
             </Grid>
@@ -111,8 +112,10 @@
 
 
 
+            <!-- Обёртка с фиксированной высотой и вертикальной прокруткой -->
+         <ScrollView Orientation="Vertical" HeightRequest="40">
 
-            <!-- Горизонтальный список устройств -->
+                <!-- Горизонтальный список устройств -->
             <FlexLayout 
             BindableLayout.ItemsSource="{Binding DiscoveredDevices}" 
             Direction="Row"
@@ -126,16 +129,25 @@
                         <Border Stroke="MidnightBlue"
                             StrokeShape="RoundRectangle 10"
                             Margin="1"
-                            Padding="8"
+                            Padding="4"
                             BackgroundColor="Khaki"
                             HorizontalOptions="Start">
+
+                            <!-- 👉 Обработка нажатия -->
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDeviceTapped"/>
+                            </Border.GestureRecognizers>
+
+                            <!-- Вертикальное размещение: Название сверху, адрес снизу -->
                             <VerticalStackLayout Spacing="2"
                                              HorizontalOptions="Center">
                                 <Label Text="{Binding Name}"
-                                   FontSize="16"
+                                   FontSize="14"
+                                   TextColor="Blue"    
+                                       
                                    HorizontalOptions="Center" />
                                 <Label Text="{Binding Address}"
-                                   FontSize="12"
+                                   FontSize="9"
                                    TextColor="DarkBlue"
                                    HorizontalOptions="Center" />
                             </VerticalStackLayout>
@@ -143,6 +155,78 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
+
+          </ScrollView>
+
+            <Border
+              Stroke="#0B0101"
+              StrokeThickness="2"
+              StrokeShape="RoundRectangle 10"
+              BackgroundColor="#b3d6bf"
+              Padding="10"
+              Margin="5"
+              HeightRequest="180">
+
+                <ScrollView x:Name="scrollView" VerticalOptions="Fill">
+                    <Label x:Name="label4"
+                     Text="Empty text to receive data"
+                     FontAttributes="Bold"    
+                     FontSize="14"
+                     TextColor="DarkBlue"
+                     LineBreakMode="WordWrap"
+                     VerticalTextAlignment="Start"
+                     HorizontalTextAlignment="Start" />
+                </ScrollView>
+
+            </Border>
+
+
+
+            <Grid Margin="5" ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                            <!-- ReceiverData -->
+                <Button Margin="5" 
+                   Text="Receiver"  
+                   x:Name="Counter4" 
+                   TextColor="#b27c29"
+                   BackgroundColor="#181e1a" 
+                   Clicked="DataReciever"
+                   Grid.Column="0" />               
+
+                                 <!-- Clear Data -->
+                                <Button Margin="5"
+                                   Text="Clear Data"
+                                   TextColor="#b27c29"
+                                   BackgroundColor="#461406"
+                                   Clicked="DataClear"                       
+                                   Grid.Column="1" />
+
+                                <!-- TransmitterData -->
+                               <Button Margin="5" 
+                                 Text="Transmitter"  
+                                 x:Name="Counter1" 
+                                 TextColor="BlanchedAlmond"  
+                                 BackgroundColor="#1B1919"  
+                                 Clicked="TransmitterData"
+                                 Grid.Column="2" />             
+            </Grid>
+
+
+            <Border Stroke="Gray" 
+                    StrokeThickness="1" 
+                    Padding="10" 
+                    Margin="5">
+                   <Entry x:Name="entry1"
+                    Placeholder="Enter text to transfer data"
+                    PlaceholderColor="BlanchedAlmond"
+                    FontSize="18"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center" />     
+            </Border>
+
+
+
+
 
         </VerticalStackLayout>
     </ScrollView>

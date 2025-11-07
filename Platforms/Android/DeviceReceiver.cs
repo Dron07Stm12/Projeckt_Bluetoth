@@ -1,5 +1,7 @@
 ﻿using Android.Bluetooth;
 using Android.Content;
+using Microsoft.Maui.Controls;
+using static Android.Icu.Text.IDNA;
 using DeviceInfo = Project_Bluetooth.Models.DeviceInfo;
 
 
@@ -11,11 +13,13 @@ namespace Project_Bluetooth.Platforms.Android
     public class DeviceReceiver : BroadcastReceiver
     {
         private readonly Action<DeviceInfo> _onDeviceFound;
+        private readonly Action _onDiscoveryFinished;
 
         // В конструктор передаётся делегат, который будет вызываться при нахождении устройства
-        public DeviceReceiver(Action<DeviceInfo> onDeviceFound)
+        public DeviceReceiver(Action<DeviceInfo> onDeviceFound, Action onDiscoveryFinished)
         {
             _onDeviceFound = onDeviceFound;
+            _onDiscoveryFinished = onDiscoveryFinished;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -35,10 +39,22 @@ namespace Project_Bluetooth.Platforms.Android
                     };
 
                    
+
+
                     // Вызываем делегат с найденным устройством
                     _onDeviceFound?.Invoke(deviceInfo);
                 }
             }
+
+            else if (intent.Action == BluetoothAdapter.ActionDiscoveryFinished)
+            {
+                // Обнаружение завершено, можно уведомить об этом, если нужно
+                // обработка крутилки
+                _onDiscoveryFinished?.Invoke(); 
+
+
+            }   
+
         }
     }
 }

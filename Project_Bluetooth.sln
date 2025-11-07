@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_Bluetooth", "Project_Bluetooth.csproj", "{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_Bluetooth_Server", "..\Project_Bluetooth_Server\Project_Bluetooth_Server.csproj", "{E090069D-81AE-4F75-9479-707043891113}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "..\Server\Server.csproj", "{795BD803-2C19-49DE-B303-9FF48B2E3282}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiGpsDemo", "..\MauiGpsDemo\MauiGpsDemo.csproj", "{C191883F-2733-4511-92AF-32642EC472F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scb_Electronmash", "..\Scb_Electronmash\Scb_Electronmash.csproj", "{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +21,28 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E090069D-81AE-4F75-9479-707043891113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E090069D-81AE-4F75-9479-707043891113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E090069D-81AE-4F75-9479-707043891113}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E090069D-81AE-4F75-9479-707043891113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E090069D-81AE-4F75-9479-707043891113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795BD803-2C19-49DE-B303-9FF48B2E3282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795BD803-2C19-49DE-B303-9FF48B2E3282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795BD803-2C19-49DE-B303-9FF48B2E3282}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{795BD803-2C19-49DE-B303-9FF48B2E3282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795BD803-2C19-49DE-B303-9FF48B2E3282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C191883F-2733-4511-92AF-32642EC472F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C191883F-2733-4511-92AF-32642EC472F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C191883F-2733-4511-92AF-32642EC472F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C191883F-2733-4511-92AF-32642EC472F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.dron07stm12.bluetoothhc06">
 	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -9,6 +9,7 @@
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
 	<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-	<uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
 	<uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
 </manifest>

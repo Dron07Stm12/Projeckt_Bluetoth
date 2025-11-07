@@ -64,7 +64,17 @@ namespace Project_Bluetooth
             bluetoothService.MyEvent += OnDataClear;
             // Подписываемся на событие MyEvent_T из Bluetooth-сервиса
             //  bluetoothService.MyEvent_T += OnMyEvent_T;
-
+            // Подписываемся на событие DiscoveryFinished из Bluetooth-сервиса
+            bluetoothService.DiscoveryFinished += delegate ()
+            {
+                // Главный поток для UI, чтоб в UI было изменение коллекции DiscoveredDevices
+                MainThread.BeginInvokeOnMainThread(delegate ()
+                {
+                    // обработка крутилки
+                    activityIndicator.IsVisible = false;//элемент виден пользователю.
+                    activityIndicator.IsRunning = false;//индикатор крутится
+                });
+            };
 
 #if ANDROID
             // Подписываемся на событие MyEvent из Bluetooth-сервиса
@@ -72,13 +82,13 @@ namespace Project_Bluetooth
             // конкретной реализацией AndroidBluetoothService.
             // Если это так, то приводим его к этому типу и сохраняем в переменную androidService.
             // В этом случае мы можем использовать специфичные для Android методы и свойства.
-             // например, socket_global.
-        
+            // например, socket_global.
+
             if (_bluetoothService is AndroidBluetoothService androidService)
             {
-                byte[] buffer = new byte[4096];
+               // byte[] buffer = new byte[4096];
 
-                androidService.MyEvent_T +=  delegate ()
+                androidService.MyEvent_T +=  delegate (byte[] buffer)
                 {
                       // Подписываемся на событие MyEvent_T.
                       // Когда событие будет вызвано, выполнится этот анонимный обработчик.
@@ -86,12 +96,12 @@ namespace Project_Bluetooth
                     MainThread.BeginInvokeOnMainThread( async delegate ()
                     {
                         // Выводим сообщение
-                     await DisplayAlert("MyEvent", "главный_поток", "OK");
+                   //  await DisplayAlert("MyEvent", "главный_поток", "OK");
 
                       if (androidService.socket_global != null && androidService.socket_global.IsConnected)
                         {
                             // Преобразуем строку в массив байтов
-                            buffer = System.Text.Encoding.ASCII.GetBytes(entry1.Text);
+                        //    buffer = System.Text.Encoding.ASCII.GetBytes(entry1.Text);
                             // Отправляем данные на устройство
                            await  Task.Delay(100);
                           await  androidService.socket_global.OutputStream.WriteAsync(buffer, 0, buffer.Length);
@@ -100,7 +110,7 @@ namespace Project_Bluetooth
                         }
                       else
                         {
-                            await  DisplayAlert("Ошибка", "Нет соединения с устройством!", "OK");
+                            await  DisplayAlert("Error", "No connection to device!", "OK");
                         }
 
                     });
@@ -112,10 +122,24 @@ namespace Project_Bluetooth
         }
 
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            #if ANDROID || IOS
+                Shell.SetNavBarIsVisible(this, false);
+            #endif
+        }
+
+
 
         private async void DataClear(object s,EventArgs args) { await _bluetoothService.ClearData(); }
 
-        private async void TransmitterData(object s, EventArgs args) { await _bluetoothService.TransmitterData(); }
+        private async void TransmitterData(object s, EventArgs args) {
+            
+            string data = entry1.Text;
+            await  DisplayAlert("Data", $"TransmitterData: {data}", "OK");
+            await _bluetoothService.TransmitterData(data);
+        }
 
         //обработчик
         private void OnDataClear() {
@@ -129,20 +153,7 @@ namespace Project_Bluetooth
 
         }
 
-        // Обработчик события MyEvent_T из Bluetooth-сервиса
-        //private async void OnMyEvent_T(byte[] buffer)
-        //{
-        //   // byte[] buffer = new byte[4096];
-           
-        //    // Выводим сообщение
-        //    MainThread.BeginInvokeOnMainThread(async () =>
-        //    {
-        //        // Выводим сообщение
-        //      await  DisplayAlert("MyEvent_T", $"команда{entry1.Text}  ", "OK");
-        //        //  buffer = System.Text.Encoding.ASCII.GetBytes(entry1.Text);
-
-        //    });
-        //}
+     
 
 
         // Обработчик события DataReceived: обновляет label4 в UI потоке
@@ -170,17 +181,53 @@ namespace Project_Bluetooth
 
         private async void OnStartScanClicked(object sender, EventArgs e)
         {
-           
-            await _bluetoothService.StartScanningAsync();
+            
+            bool started = await _bluetoothService.StartScanningAsync();
+
+            if (started) {
+                // обработка крутилки
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+
+                    activityIndicator.IsVisible = true;//элемент виден пользователю.
+                    activityIndicator.IsRunning = true;//индикатор крутится
+                });
+
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+
+                    activityIndicator.IsVisible = false;//элемент виден пользователю.
+                    activityIndicator.IsRunning = false;//индикатор крутится
+                });
+
+            }
+
         }
 
       
 
         private async void OnStopScanClicked(object sender, EventArgs e)
         {
-            await _bluetoothService.StopScanningAsync();
-           
+            // обработка крутилки
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+
+                activityIndicator.IsVisible = false;//элемент виден пользователю.
+                activityIndicator.IsRunning = false;//индикатор крутится
+            });
+
+            DiscoveredDevices.Clear();
+            await _bluetoothService.Clear_Device();
+
         }
+
+        //private async void Disconnect(object sender, EventArgs e)
+        //{
+            
+        //}
 
 
         private async void OnDeviceTapped(object sender, TappedEventArgs e)
@@ -190,7 +237,7 @@ namespace Project_Bluetooth
 
             if (sender is Border border) {
                 if (border.BindingContext is DeviceInfo device_info ) {
-                    await DisplayAlert("Выбор устройства", $" {device_info.Name} {device_info.Address}", "OK");
+                    await DisplayAlert("Device Selection", $" {device_info.Name} {device_info.Address}", "OK");
                     await _bluetoothService.ConnectToDeviceAsync2(device_info);
 
                     if (device_info.IsConnected) {
@@ -224,7 +271,15 @@ namespace Project_Bluetooth
            
         }
 
-      
+
+        private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
+        {
+            await Launcher.Default.OpenAsync("https://docs.google.com/document/d/1cyXZfx0MQ9GGW2_5GEabZeNPW84Ipgp3vBGMGTwf2Vc/edit?tab=t.0");
+        }
+
+
+
+
     }
 
 }

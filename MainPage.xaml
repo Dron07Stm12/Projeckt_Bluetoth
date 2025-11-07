@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-            x:Class="Project_Bluetooth.MainPage"            
-            Title="Bluetooth Scanner">
+            x:Class="Project_Bluetooth.MainPage"     
+             Shell.NavBarIsVisible="False"
+            Title="Bluetooth Scanner"
+             
+             >
 
     <!--<ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="Khaki">
@@ -68,12 +71,14 @@
     </ScrollView>-->
 
     <ScrollView>
-        <VerticalStackLayout Padding="15" Spacing="20" BackgroundColor="DimGrey">
+        <VerticalStackLayout Padding="16" Spacing="20" BackgroundColor="#023502">
 
             <!-- Заголовок -->
-            <Label Text="SCB_ELECTRONMASH"  
+            <Label Text="BluetoothHC06"  
                FontSize="18"  
-               HorizontalOptions="Center"  
+               HorizontalOptions="Center" 
+                FontAttributes="Bold"   
+                 TextColor="#FFEBCD"   
                SemanticProperties.HeadingLevel="Level1" />
 
             <!-- Кнопка запуска сканирования --><!--
@@ -83,37 +88,62 @@
                 TextColor="White"  
                 CornerRadius="10"  
                 HorizontalOptions="Fill" />-->
-
-
             <!-- ✅ Горизонтальное размещение двух кнопок -->
             <!-- Использование Grid для горизонтального размещения кнопок -->
-            <Grid Margin="1" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+            <Grid Margin="2" ColumnDefinitions="*,*,*" ColumnSpacing="10">
                 <Button Text="Bluetooth"
                     x:Name="Counter5"
-                    TextColor="#b27c29"
-                    BackgroundColor="#3131a4"
+                     FontAttributes="Bold"   
+                    TextColor="#4096ac" 
+                    BackgroundColor="#0b0b3e"
                     Clicked="On_Off_Bluetooth"
-                    Grid.Column="0"/>
-
-                <Button Text="Scan devices"
+                    Grid.Column="0"
+                       
                         
-                    TextColor="#b27c29"
-                    BackgroundColor="#263726"
-                    Clicked="OnStartScanClicked"
-                    Grid.Column="1"/>
+                        />
 
-                <Button Text="Stop scan"
-                       TextColor="#b27c29"
-                    BackgroundColor="#93411d19"
+                <Button Text="Scan_devices"
+                     FontAttributes="Bold"   
+                   TextColor="#4096ac"
+                    BackgroundColor="#000000"
+                    Clicked="OnStartScanClicked"
+                    Grid.Column="1"
+                                           
+                        />
+
+                <Button Text="Clear_devices"
+                        FontAttributes="Bold"
+                      TextColor="#4096ac"
+                    BackgroundColor="#000000"
                     Clicked="OnStopScanClicked"
-                    Grid.Column="2"/>
+                    Grid.Column="2"                                       
+                        />
+
+                <!--<Button Text="Stop scan"
+                    TextColor="#b27c29"
+                 BackgroundColor="#2B1011"
+                 Clicked="Disconnect"
+                 Grid.Column="3"/>-->
+
+
+
             </Grid>
 
+            <!-- Индикатор поиска -->
+            <ActivityIndicator 
+                  x:Name="activityIndicator"
+                  IsRunning="False"
+                  IsVisible="False"
+                  Color="#FFFFFF"
+                  VerticalOptions="Center"
+                  HorizontalOptions="Center"
+                  HeightRequest="25"
+                  WidthRequest="25"/>
 
 
 
             <!-- Обёртка с фиксированной высотой и вертикальной прокруткой -->
-         <ScrollView Orientation="Vertical" HeightRequest="40">
+         <ScrollView Orientation="Vertical" HeightRequest="50">
 
                 <!-- Горизонтальный список устройств -->
             <FlexLayout 
@@ -184,19 +214,21 @@
 
             <Grid Margin="5" ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
                             <!-- ReceiverData -->
-                <Button Margin="5" 
-                   Text="Receiver"  
-                   x:Name="Counter4" 
-                   TextColor="#b27c29"
-                   BackgroundColor="#181e1a" 
-                   Clicked="DataReciever"
-                   Grid.Column="0" />               
+                                <Button Margin="5" 
+                                   Text="Receiver"  
+                                   x:Name="Counter4" 
+                                      FontAttributes="Bold"   
+                                      TextColor="#33cccc" 
+                                   BackgroundColor="#18182C" 
+                                   Clicked="DataReciever"
+                                   Grid.Column="0" />               
 
                                  <!-- Clear Data -->
                                 <Button Margin="5"
-                                   Text="Clear Data"
-                                   TextColor="#b27c29"
-                                   BackgroundColor="#461406"
+                                   Text="Clear data"
+                                     FontAttributes="Bold"   
+                                    TextColor="#01010d" 
+                                   BackgroundColor="#70CBCB"
                                    Clicked="DataClear"                       
                                    Grid.Column="1" />
 
@@ -204,8 +236,9 @@
                                <Button Margin="5" 
                                  Text="Transmitter"  
                                  x:Name="Counter1" 
-                                 TextColor="BlanchedAlmond"  
-                                 BackgroundColor="#1B1919"  
+                                   FontAttributes="Bold"   
+                                     TextColor="#33cccc"
+                                 BackgroundColor="#18182C" 
                                  Clicked="TransmitterData"
                                  Grid.Column="2" />             
             </Grid>
@@ -224,6 +257,14 @@
                     VerticalOptions="Center" />     
             </Border>
 
+            <Button
+            Text="Privacy Policy"
+            HorizontalOptions="Center"
+            Margin="10,20,10,10"
+            Clicked="OnPrivacyPolicyClicked"
+            FontAttributes="Bold"
+            TextColor="#741818"
+            BackgroundColor="#000000"/>
 
 
 

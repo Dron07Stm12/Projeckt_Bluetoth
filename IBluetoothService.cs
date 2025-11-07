@@ -3,7 +3,7 @@ using DeviceInfo = Project_Bluetooth.Models.DeviceInfo;
 
 //public delegate void MyEventHandler(string message); // 👈 Вынеси из интерфейса
 public delegate void MyEventHandler();
-public delegate void MyEventHandler_T(); // 👈 Вынеси из интерфейса
+public delegate void MyEventHandler_T(byte[] buffer); // 👈 Вынеси из интерфейса
 
 namespace Project_Bluetooth
 {
@@ -20,8 +20,16 @@ namespace Project_Bluetooth
         // Событие: вызывается при получении строки данных из Bluetooth (например, строки с датчика)
         event Action<string> DataReceived;
 
-        Task StartScanningAsync();
+
+
+        // Новое событие для уведомления об окончании поиска устройств
+        event Action DiscoveryFinished;
+
+
+        Task<bool> StartScanningAsync();
         Task StopScanningAsync();
+
+        Task Clear_Device();
         
         Task ConnectToDeviceAsync2(DeviceInfo deviceInfo);
         Task DisconnectFromDeviceAsync();
@@ -31,7 +39,7 @@ namespace Project_Bluetooth
 
         Task ClearData();
 
-        Task TransmitterData();
+        Task TransmitterData(string data);
 
     }
 }

@@ -229,7 +229,7 @@
                                      FontAttributes="Bold"   
                                     TextColor="#01010d" 
                                    BackgroundColor="#70CBCB"
-                                   Clicked="DataClear"                       
+                                   Clicked="OnClearDevices"                       
                                    Grid.Column="1" />
 
                                 <!-- TransmitterData -->

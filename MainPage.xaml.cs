@@ -132,7 +132,7 @@ namespace Project_Bluetooth
 
 
 
-        private async void DataClear(object s,EventArgs args) { await _bluetoothService.ClearData(); }
+        private async void OnClearDevices(object s,EventArgs args) { await _bluetoothService.ClearData(); }
 
         private async void TransmitterData(object s, EventArgs args) {
             

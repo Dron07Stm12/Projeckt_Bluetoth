@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11304.161
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_Bluetooth", "Project_Bluetooth.csproj", "{DB57E13C-ADA2-4B8C-8D77-DC545C99C600}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiGpsDemo", "..\MauiGpsDemo\MauiGpsDemo.csproj", "{C191883F-2733-4511-92AF-32642EC472F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scb_Electronmash", "..\Scb_Electronmash\Scb_Electronmash.csproj", "{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scb_3", "..\scb_3\scb_3.csproj", "{44C0DD7B-40B0-4FDA-BF5A-C5F9D008AB51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "skb_home", "..\skb_home\skb_home.csproj", "{A80208C1-6E29-4715-845A-905CC8852D94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui_azure", "..\Maui_azure\Maui_azure.csproj", "{D0A70496-7024-47EC-93A4-C97923369477}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +49,20 @@ Global
 		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D6DE98F-D1A3-4957-B287-F64AFCA7430F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44C0DD7B-40B0-4FDA-BF5A-C5F9D008AB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C0DD7B-40B0-4FDA-BF5A-C5F9D008AB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C0DD7B-40B0-4FDA-BF5A-C5F9D008AB51}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{44C0DD7B-40B0-4FDA-BF5A-C5F9D008AB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C0DD7B-40B0-4FDA-BF5A-C5F9D008AB51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80208C1-6E29-4715-845A-905CC8852D94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80208C1-6E29-4715-845A-905CC8852D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80208C1-6E29-4715-845A-905CC8852D94}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A80208C1-6E29-4715-845A-905CC8852D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80208C1-6E29-4715-845A-905CC8852D94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A70496-7024-47EC-93A4-C97923369477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A70496-7024-47EC-93A4-C97923369477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A70496-7024-47EC-93A4-C97923369477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A70496-7024-47EC-93A4-C97923369477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

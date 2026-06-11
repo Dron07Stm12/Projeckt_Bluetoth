@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using Project_Bluetooth.Models;
 using DeviceInfo = Project_Bluetooth.Models.DeviceInfo;
 using Microsoft.Maui.Devices;
-
+using Microsoft.Maui.Graphics;
 
 
 
@@ -22,6 +22,9 @@ namespace Project_Bluetooth
         // Коллекция найденных устройств
         public ObservableCollection<DeviceInfo> DiscoveredDevices { get; } = new();
 
+        //поле для хранения значений для отображения в сетке 16x8 (128 ячеек)
+        private double?[] _gridValues = new double?[128];
+
 
         public MainPage(IBluetoothService bluetoothService)
         {
@@ -30,12 +33,28 @@ namespace Project_Bluetooth
             //связывает XAML-интерфейс с текущим классом (например, MainPage), чтобы иметь доступ к свойствам и командам напрямую из XAML.
             BindingContext = this;
 
+            ShowPage(2);
+
+            for (int i = 0; i < 128; i++)
+                _gridValues[i] = null;
+
+            grid128View.Drawable = new Grid128Drawable(_gridValues);
+
+
+
+
+
+
+
+
+
+
 #if ANDROID
             // Передаём делегат в Bluetooth-сервис
             //Это проверка типа: мы проверяем, является ли внедрённый сервис _bluetoothService
             //конкретной реализацией AndroidBluetoothService.
             // Если это так, то приводим его к этому типу и сохраняем в переменную androidService.
-       
+
             if (_bluetoothService is AndroidBluetoothService androidService2)
             {
                 //подписываемся на событие DeviceDiscovered - добавляем обработчик события
@@ -122,6 +141,88 @@ namespace Project_Bluetooth
         }
 
 
+        //
+
+
+        private int _currentPage = 1;
+
+//        private void ShowPage(int page)
+//        {
+//            _currentPage = page;
+
+//#if ANDROID
+//            Page1Block.IsVisible = page == 1;
+//            Page2Block.IsVisible = page == 2;
+
+//            Page1Indicator.TextColor = page == 1 ? Colors.White : Colors.Black;
+//            Page2Indicator.TextColor = page == 2 ? Colors.White : Colors.Black;
+
+//#endif
+//        }
+
+
+        private void ShowPage(int page)
+        {
+            _currentPage = page;
+
+            Page1Block.IsVisible = page == 1;
+            Page2Block.IsVisible = page == 2;
+
+            Page1Indicator.TextColor = page == 1 ? Colors.White : Colors.Gray;
+            Page2Indicator.TextColor = page == 2 ? Colors.White : Colors.Gray;
+
+            DebugLabelButton.TextColor = page == 1 ? Colors.White : Colors.Gray;
+            UserLabelButton.TextColor = page == 2 ? Colors.White : Colors.Gray;
+        }
+
+
+
+
+
+        private void ShowPage1Clicked(object sender, EventArgs e)
+        {
+            ShowPage(1);
+        }
+
+        private void ShowPage2Clicked(object sender, EventArgs e)
+        {
+            ShowPage(2);
+        }
+
+        private void OnSwipedLeft(object sender, SwipedEventArgs e)
+        {
+            if (_currentPage == 1)
+                ShowPage(2);
+        }
+
+        private void OnSwipedRight(object sender, SwipedEventArgs e)
+        {
+            if (_currentPage == 2)
+                ShowPage(1);
+        }
+
+        private async void OnAction1Clicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Second screen", "Action 1 pressed", "OK");
+        }
+
+        private async void OnAction2Clicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Second screen", "Action 2 pressed", "OK");
+        }
+
+
+
+
+
+
+
+
+
+        //
+
+
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -153,19 +254,171 @@ namespace Project_Bluetooth
 
         }
 
-     
+
 
 
         // Обработчик события DataReceived: обновляет label4 в UI потоке
         // Обновление label4 только на главном потоке!
+        //private void OnDataReceived(string message)
+        //{
+        //    MainThread.BeginInvokeOnMainThread(() =>
+        //    {
+        //        label4.Text += $"{Environment.NewLine}{message}";
+        //        scrollView.ScrollToAsync(label4, ScrollToPosition.End, true);
+        //    });
+        //}
+
+
+        //private void UpdateGridCellFromMessage(string message)
+        //{
+        //    if (string.IsNullOrWhiteSpace(message))
+        //        return;
+
+        //    // Пример строки:
+        //    // R00 = 0.72 v - IDLE_SENSOR
+
+        //    try
+        //    {
+        //        string trimmed = message.Trim();
+
+        //        if (!trimmed.StartsWith("R"))
+        //            return;
+
+        //        int eqIndex = trimmed.IndexOf('=');
+        //        if (eqIndex < 0)
+        //            return;
+
+        //        string sensorPart = trimmed.Substring(0, eqIndex).Trim();   // R00
+        //        string valuePart = trimmed.Substring(eqIndex + 1).Trim();   // 0.72 v - IDLE_SENSOR
+
+        //        // Берём индекс из R00 -> 00
+        //        string indexText = sensorPart.Replace("R", "").Trim();
+
+        //        if (!int.TryParse(indexText, out int cellIndex))
+        //            return;
+
+        //        if (cellIndex < 0 || cellIndex >= 128)
+        //            return;
+
+        //        // Берём число до "v"
+        //        int vIndex = valuePart.IndexOf('v');
+        //        string voltageText;
+
+        //        if (vIndex >= 0)
+        //            voltageText = valuePart.Substring(0, vIndex).Trim();
+        //        else
+        //            voltageText = valuePart;
+
+        //        if (double.TryParse(
+        //                voltageText,
+        //                System.Globalization.NumberStyles.Any,
+        //                System.Globalization.CultureInfo.InvariantCulture,
+        //                out double voltage))
+        //        {
+        //            _gridValues[cellIndex] = voltage;
+
+        //            grid128View.Drawable = new Grid128Drawable(_gridValues);
+        //            grid128View.Invalidate();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        // можно пока ничего не делать
+        //    }
+        //}
+
+
+        private void UpdateGridCellsFromMessage(string message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+                return;
+
+            var lines = message.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+            bool changed = false;
+
+            foreach (var line in lines)
+            {
+                if (TryParseGridCell(line, out int cellIndex, out double voltage))
+                {
+                    _gridValues[cellIndex] = voltage;
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {
+                grid128View.Invalidate();
+            }
+        }
+
+
+
+        private bool TryParseGridCell(string message, out int cellIndex, out double voltage)
+        {
+            cellIndex = -1;
+            voltage = 0;
+
+            if (string.IsNullOrWhiteSpace(message))
+                return false;
+
+            try
+            {
+                string trimmed = message.Trim();
+
+                if (!trimmed.StartsWith("R"))
+                    return false;
+
+                int eqIndex = trimmed.IndexOf('=');
+                if (eqIndex < 0)
+                    return false;
+
+                string sensorPart = trimmed.Substring(0, eqIndex).Trim();   // R00
+                string valuePart = trimmed.Substring(eqIndex + 1).Trim();   // 0.72 v - IDLE_SENSOR
+
+                string indexText = sensorPart.Replace("R", "").Trim();
+
+                if (!int.TryParse(indexText, out cellIndex))
+                    return false;
+
+                if (cellIndex < 0 || cellIndex >= 128)
+                    return false;
+
+                int vIndex = valuePart.IndexOf('v');
+                string voltageText = vIndex >= 0
+                    ? valuePart.Substring(0, vIndex).Trim()
+                    : valuePart;
+
+                return double.TryParse(
+                    voltageText,
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out voltage);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+
         private void OnDataReceived(string message)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 label4.Text += $"{Environment.NewLine}{message}";
                 scrollView.ScrollToAsync(label4, ScrollToPosition.End, true);
+
+                UpdateGridCellsFromMessage(message);
             });
         }
+
+
+
+
+
 
         // Вызов приёма данных по Bluetooth по нажатию кнопки (Receiver)
         private async void DataReciever(object sender, EventArgs e)
@@ -282,7 +535,125 @@ namespace Project_Bluetooth
 
     }
 
+    //////
+
+    public class Grid128Drawable : IDrawable
+    {
+        private readonly double?[] data;
+
+        public Grid128Drawable(double?[] values)
+        {
+            data = values ?? new double?[128];
+        }
+
+        public void Draw(ICanvas canvas, RectF dirtyRect)
+        {
+            int cols = 16;
+            int rows = 8;
+            int totalCells = rows * cols;
+
+            float padding = 10f;
+            float spacing = 2f;
+
+            float availableWidth = dirtyRect.Width - padding * 2;
+            float availableHeight = dirtyRect.Height - padding * 2;
+
+            float cellWidth = (availableWidth - spacing * (cols - 1)) / cols;
+            float cellHeight = (availableHeight - spacing * (rows - 1)) / rows;
+
+            canvas.StrokeSize = 1;
+            canvas.FontSize = 11;
+            canvas.FontColor = Colors.Black;
+
+            for (int i = 0; i < totalCells; i++)
+            {
+                int row = i / cols;
+                int col = i % cols;
+
+                float x = padding + col * (cellWidth + spacing);
+                float y = padding + row * (cellHeight + spacing);
+
+                double? value = i < data.Length ? data[i] : null;
+
+                Color fillColor;
+                if (value.HasValue)
+                    fillColor = GetColorByValue(value.Value);
+                else
+                    fillColor = Colors.LightSteelBlue;
+
+                canvas.FillColor = fillColor;
+                canvas.FillRoundedRectangle(x, y, cellWidth, cellHeight, 3);
+
+                canvas.StrokeColor = Colors.White;
+                canvas.DrawRoundedRectangle(x, y, cellWidth, cellHeight, 3);
+                // $"R{i:D2}",
+                canvas.DrawString(
+                    $"{i:D2}",
+                    x,
+                    y,
+                    cellWidth,
+                    cellHeight,
+                    HorizontalAlignment.Center,
+                    VerticalAlignment.Center);
+            }
+        }
+
+        private Color GetColorByValue(double v)
+        {
+            if (v < 0.4)
+                return Colors.Gray;      // отсутствие датчика
+            else if (v <= 1.01)
+                return Colors.Green;     // IDLE_SENSOR
+            else if (v < 2.0)
+                return Colors.Peru;    // промежуточное состояние
+            else if (v <= 2.91)
+                return Colors.Tomato;    // ALERT
+            else if (v < 3.5)
+                return Colors.DarkRed;       // SHORT
+
+            return Colors.Black;
+        }
+    }
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Action<DeviceInfo> action = delegate (DeviceInfo info)
